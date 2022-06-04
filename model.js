@@ -5,35 +5,35 @@ let information_model = [
     name: "Ram used",
     unit: true,
     unit_name: "byte",
-    value: "201168",
+    value: "",
   },
   {
     id: "ip",
     name: "Ip Address",
     unit: false,
     unit_name: "no",
-    value: "192.168.0.105",
+    value: "",
   },
   {
     id: "rssi",
     name: "WiFi stength",
     unit: true,
     unit_name: "db",
-    value: "-59",
+    value: "",
   },
   {
     id: "cpu_clock",
     name: "CPU speed",
-    unit: false,
+    unit: true,
     unit_name: "Mhz",
-    value: "240",
+    value: "",
   },
   {
     id: "working_time",
     name: "Working time",
     unit: false,
     unit_name: "no",
-    value: "0 hour 9 minute",
+    value: "",
   },
 ];
 
@@ -46,11 +46,11 @@ let DHT11 = {
       id: "temperature",
       name: "Temperature",
       icon_name: "temperature",
-      current_value: 32,
-      before_value: 33,
+      current_value: 0,
+      before_value: 0,
       maxValue: 100,
       state_value: "DOWN",
-      update_time: "11:08:36",
+      update_time: "",
       unit: "°C",
       data: [],
     },
@@ -58,11 +58,11 @@ let DHT11 = {
       id: "humidity",
       name: "Humidity",
       icon_name: "Humidity",
-      current_value: 62,
-      before_value: 61,
+      current_value: 0,
+      before_value: 0,
       maxValue: 100,
       state_value: "UP",
-      update_time: "11:11:01",
+      update_time: "",
       unit: "%",
       data: [],
     },
@@ -80,7 +80,7 @@ let BH1750 = {
       icon_name: "light_intensity",
       current_value: 0,
       before_value: 0,
-      maxValue: 100,
+      maxValue: 27519,
       state_value: "DOWN",
       update_time: "",
       unit: "Lux",
@@ -90,6 +90,13 @@ let BH1750 = {
 }
 
 const sensor_board_model = function (name, name_space, list_sensor) {
+  let sensor = [];
+
+  list_sensor.map(item => {
+    if (item.name === 'DHT11' && item.isUsed === true) sensor.push(DHT11);
+    if (item.name === 'BH1750' && item.isUsed === true) sensor.push(BH1750);
+  })
+
   return {
     id: uuidv4(),
     name: name,
@@ -98,10 +105,7 @@ const sensor_board_model = function (name, name_space, list_sensor) {
     list_sensor: [
       ...list_sensor
     ],
-    sensor: list_sensor.map(item => {
-      if (item.name === 'DHT11' && item.isUsed === true) return DHT11;
-      if (item.name === 'BH1750' && item.isUsed === true) return BH1750;
-    }),
+    sensor: sensor,
     sensor_board_information: information_model,
   };
 };

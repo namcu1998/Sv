@@ -64,6 +64,7 @@ function value(id, sensor_name, sensor_value_name, value) {
                 id: item3.id,
                 name: item3.name,
                 icon_name: item3.icon_name,
+                maxValue: item3.maxValue,
                 current_value: value,
                 before_value: item3.current_value,
                 state_value: value > item3.current_value ? "UP" : "DOWN",
@@ -76,6 +77,7 @@ function value(id, sensor_name, sensor_value_name, value) {
                           id: uuidv4(),
                           current_value: value,
                           before_value: item3.current_value,
+                          maxValue: item3.maxValue,
                           update_time: moment()
                             .tz("Asia/Ho_Chi_Minh")
                             .format("h:mm:ss a"),
@@ -91,6 +93,7 @@ function value(id, sensor_name, sensor_value_name, value) {
                           id: uuidv4(),
                           current_value: value,
                           before_value: item3.current_value,
+                          maxValue: item3.maxValue,
                           update_time: moment()
                             .tz("Asia/Ho_Chi_Minh")
                             .format("h:mm:ss a"),
@@ -102,8 +105,9 @@ function value(id, sensor_name, sensor_value_name, value) {
                       ],
               };
 
-              json_data[index].sensor[index2].data[index3].data.length =
-                array_length;
+              if (json_data[index].sensor[index2].data[index3].data.length > array_length) {
+                json_data[index].sensor[index2].data[index3].data.splice(10, 2);
+              }
             }
           });
         }
